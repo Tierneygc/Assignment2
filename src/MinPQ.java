@@ -11,7 +11,7 @@ public class MinPQ<Key extends Comparable<Key>> {
         pq[++n] = x;
         swim(n);
     }// see previous code
-    public Key delMax(){
+    public Key delMin(){
 
         Key min = pq[1];
         exch(1, n--);
@@ -46,5 +46,6 @@ public class MinPQ<Key extends Comparable<Key>> {
         pq[i] = pq[j];
         pq[j] = swap;
     }
+    public int size() { return n; }
 
 }
