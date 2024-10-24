@@ -8,8 +8,11 @@ public class MinPQ<Key extends Comparable<Key>> {
     public boolean isEmpty()
     { return n == 0; }
     public void insert(Key x) {
+
         pq[++n] = x;
-        swim(n);
+
+            swim(n);
+
     }// see previous code
     public Key delMin(){
 
@@ -21,6 +24,7 @@ public class MinPQ<Key extends Comparable<Key>> {
     }// see previous code
 
     private void swim(int k){
+
         while (k > 1 && greater(k/2, k)) {
             exch(k/2, k);
             k = k/2;
@@ -47,5 +51,6 @@ public class MinPQ<Key extends Comparable<Key>> {
         pq[j] = swap;
     }
     public int size() { return n; }
+
 
 }
