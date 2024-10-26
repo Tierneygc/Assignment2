@@ -3,7 +3,7 @@ import java.util.*;
 
 
 
-public class Main {
+public class Main{
     public static class Job implements Comparable<Job> {
         int id;
         public int processingTime;
@@ -147,18 +147,18 @@ public class Main {
             Job job = new Job(jobId, processingTime, arrivalTime);
             jobs.insert(job);
         }
-        while (!jobs.isEmpty()) {
+//        while (!jobs.isEmpty()) {
+//
+//            Job nextJob = jobs.delMin();
+//
+//            totalProcessing = totalProcessing + nextJob.processingTime;
+//            //System.out.println("proc" + totalProcessing);
+//            sum = sum + totalProcessing;
+//            //System.out.println("sum" + sum);// Retrieve and remove the job with the smallest processing time
+//            System.out.print(nextJob.id + ", ");
+//        }
 
-            Job nextJob = jobs.delMin();
-
-            totalProcessing = totalProcessing + nextJob.processingTime;
-            //System.out.println("proc" + totalProcessing);
-            sum = sum + totalProcessing;
-            //System.out.println("sum" + sum);// Retrieve and remove the job with the smallest processing time
-            System.out.print(nextJob.id + ", ");
-        }
-
-        Job[] pq = jobs.getPq();
+        Job[] pq = (Job[]) jobs.getPq();
         int currentTime = pq[0].processingTime;
         System.out.print("Execution Order: [");
 
