@@ -4,11 +4,11 @@ import java.util.*;
 
 
 public class Main {
-    static class Job implements Comparable<Job> {
+    public static class Job implements Comparable<Job> {
         int id;
-        int processingTime;
-        int priorityLevel;
-        double arrivalTime;
+        public int processingTime;
+        public int priorityLevel;
+        public double arrivalTime;
 
 
 
@@ -28,6 +28,16 @@ public class Main {
             this.id = id;
             this.processingTime = processingTime;
             this.arrivalTime = arrivalTime;
+        }
+
+        public int getProcessingTime()
+        {
+            return this.processingTime;
+        }
+
+        public double getArrivalTimeTime()
+        {
+            return this.arrivalTime;
         }
 
 
@@ -147,6 +157,33 @@ public class Main {
             //System.out.println("sum" + sum);// Retrieve and remove the job with the smallest processing time
             System.out.print(nextJob.id + ", ");
         }
+
+        Job[] pq = jobs.getPq();
+        int currentTime = pq[0].processingTime;
+        System.out.print("Execution Order: [");
+
+        int n = 1;
+        while (n < pq.length){
+            int currentMin = n;
+            for (int i = n; pq[i].arrivalTime <= currentTime; i++){
+                if (pq[i].processingTime < pq[currentMin].processingTime){
+                    currentMin = i;
+
+            }
+            if (currentMin != n){
+                    Job temp = pq[n];
+                    pq[n] = pq[currentMin];
+                    pq[currentMin] = temp;
+
+            }
+            System.out.print(", " + pq[n].id);
+            currentTime += pq[n].processingTime;
+            n++;
+        }
+
+
+        }
+
 
     }
 

@@ -3,6 +3,7 @@ public class MinPQ<Key extends Comparable<Key>> {
     private Key[] pq;
     private int n;
 
+
     public MinPQ(int capacity)
     { pq = (Key[]) new Comparable[capacity+1]; }
     public boolean isEmpty()
@@ -51,6 +52,21 @@ public class MinPQ<Key extends Comparable<Key>> {
         pq[j] = swap;
     }
     public int size() { return n; }
+
+//    public void sort(){
+//        Key first = pq[0];
+//        currentTime = first.processingTime;
+//        int n = 1;
+//        while (n < pq.length){
+//            for (int i = n; pq[i].arrivalTime <= currentTime; i++){
+//
+//            }
+//                n++;
+//        }
+//    }
+    public Key[] getPq(){
+        return pq;
+    }
 
 
 }
