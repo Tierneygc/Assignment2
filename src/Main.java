@@ -8,6 +8,10 @@ public class Main {
         int id;
         int processingTime;
         int priorityLevel;
+        double arrivalTime;
+
+
+
 
         public Job(int id, int processingTime) {
             this.id = id;
@@ -20,15 +24,28 @@ public class Main {
             this.priorityLevel = priorityLevel;
         }
 
+        public Job(int id, int processingTime, double arrivalTime) {
+            this.id = id;
+            this.processingTime = processingTime;
+            this.arrivalTime = arrivalTime;
+        }
+
+
+
         public boolean hasPriority() {
             return this.priorityLevel > 0;
         }
 
+        public boolean hasArrivalTime() {
+            return this.arrivalTime > 0;
+        }
         // Sorting jobs by their processing time (min-heap priority)
         @Override
         public int compareTo(Job other) {
 
-            if (this.hasPriority()) {
+            if (this.hasArrivalTime()){
+                return (int) (this.arrivalTime - other.arrivalTime);
+            } else if (this.hasPriority()) {
                 if (this.priorityLevel == other.priorityLevel) {
 
                     return this.processingTime - other.processingTime;
@@ -107,6 +124,29 @@ public class Main {
         average =  Double.valueOf (sum) / size;
         System.out.println("Average completion time:" + average);
 
+
+        in =  new In("task3-input.txt");
+        while (in.hasNextLine())
+        {
+            String input = in.readLine();
+            String[] tokens = input.split(" ");
+            int jobId = Integer.parseInt(tokens[0]);
+            int processingTime = Integer.parseInt(tokens[1]);
+            double arrivalTime = Double.parseDouble(tokens[2]);
+
+            Job job = new Job(jobId, processingTime, arrivalTime);
+            jobs.insert(job);
+        }
+        while (!jobs.isEmpty()) {
+
+            Job nextJob = jobs.delMin();
+
+            totalProcessing = totalProcessing + nextJob.processingTime;
+            //System.out.println("proc" + totalProcessing);
+            sum = sum + totalProcessing;
+            //System.out.println("sum" + sum);// Retrieve and remove the job with the smallest processing time
+            System.out.print(nextJob.id + ", ");
+        }
 
     }
 
