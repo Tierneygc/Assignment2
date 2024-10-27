@@ -4,73 +4,12 @@ import java.util.*;
 
 
 public class Main{
-    public static class Job implements Comparable<Job> {
-        int id;
-        public int processingTime;
-        public int priorityLevel;
-        public double arrivalTime;
 
-
-
-
-        public Job(int id, int processingTime) {
-            this.id = id;
-            this.processingTime = processingTime;
-        }
-
-        public Job(int id, int processingTime, int priorityLevel) {
-            this.id = id;
-            this.processingTime = processingTime;
-            this.priorityLevel = priorityLevel;
-        }
-
-        public Job(int id, int processingTime, double arrivalTime) {
-            this.id = id;
-            this.processingTime = processingTime;
-            this.arrivalTime = arrivalTime;
-        }
-
-        public int getProcessingTime()
-        {
-            return this.processingTime;
-        }
-
-        public double getArrivalTimeTime()
-        {
-            return this.arrivalTime;
-        }
-
-
-
-        public boolean hasPriority() {
-            return this.priorityLevel > 0;
-        }
-
-        public boolean hasArrivalTime() {
-            return this.arrivalTime >= 0;
-        }
-        // Sorting jobs by their processing time (min-heap priority)
-        @Override
-        public int compareTo(Job other) {
-
-            if (this.hasArrivalTime()){
-                return (int) (this.arrivalTime - other.arrivalTime);
-            } else if (this.hasPriority()) {
-                if (this.priorityLevel == other.priorityLevel) {
-
-                    return this.processingTime - other.processingTime;
-                } else {
-                    return this.priorityLevel - other.priorityLevel;
-                }
-            } else {
-                return this.processingTime - other.processingTime;
-            }
-        }
-
-    }
 
     public static void main(String[] args) {
         In in = new In("task1-input.txt");
+        System.out.println();
+        System.out.println("Task 1 Output:");
 
         MinPQ<Job> jobs = new MinPQ<Job>(101);
 
@@ -104,6 +43,8 @@ public class Main{
         System.out.println("Average completion time:" + average);
 
         in =  new In("task2-input.txt");
+        System.out.println();
+        System.out.println("Task 2 Output: ");
 
         while (in.hasNextLine())
         {
@@ -136,17 +77,33 @@ public class Main{
 
 
         in =  new In("task3-input.txt");
+        System.out.println();
+        System.out.println("Task 3 Output:");
         while (in.hasNextLine())
         {
+
             String input = in.readLine();
             String[] tokens = input.split(" ");
             int jobId = Integer.parseInt(tokens[0]);
             int processingTime = Integer.parseInt(tokens[1]);
-            double arrivalTime = Double.parseDouble(tokens[2]);
+            int arrivalTime = Integer.parseInt(tokens[2]);
 
-            Job job = new Job(jobId, processingTime, arrivalTime);
+            Job job = new Job(jobId, processingTime, arrivalTime, true);
+            int currentTime = job.arrivalTime;
+
             jobs.insert(job);
+
+
         }
+        MinPQ<Job> pq = new MinPQ<Job>(101);
+         int index = 0;
+         int currentTime = 0;
+         int k =0;
+
+        sum = 0;
+         totalProcessing = 0;
+         average = 0;
+
 //        while (!jobs.isEmpty()) {
 //
 //            Job nextJob = jobs.delMin();
@@ -155,52 +112,99 @@ public class Main{
 //            //System.out.println("proc" + totalProcessing);
 //            sum = sum + totalProcessing;
 //            //System.out.println("sum" + sum);// Retrieve and remove the job with the smallest processing time
-//            System.out.print(nextJob.id + ", ");
+//            System.out.print(nextJob.arrivalTime + ", ");
 //        }
-
-        Job[] pq = new Job[jobs.size()];
-        int index = 0;
-
-        while (!jobs.isEmpty()){
-            Job job = jobs.delMin();
-            System.out.println(job.id);
-            pq[index] = job;
-            index++;
-        }
-        int currentTime = pq[0].processingTime;
-        System.out.print("Execution Order: [" + pq[0].id);
-
-        int n = 1;
-        while (n < pq.length){
-
-            int currentMin = n;
-            for (int i = n; pq[i].arrivalTime <= currentTime && i < pq.length - 1; i++){
-//                System.out.println("length" + pq.length);
-                if (pq[i].processingTime < pq[currentMin].processingTime) {
-                    currentMin = i;
-                }
-
-            }
-            if (currentMin != n){
-                    Job temp = pq[currentMin];
-                    for (int j = currentMin-1; j >= n; j--){
-                        pq[j+1] = pq[j];
-                    }
-                    pq[n] = temp;
-
-
-            }
-            System.out.print(", " + pq[n].id);
-            currentTime += pq[n].processingTime;
-
-            n=++;
-
-        }
+        Job temp = jobs.delMin();
+        int jobSize = jobs.size();
         System.out.print("[");
-        for(Job j : pq){
-            System.out.print(j.id + ", ");
-        }
+        while (index <= jobSize || !pq.isEmpty()) {
+            //System.out.println("index" + index);
+            while (temp.arrivalTime <= currentTime && index <= jobSize) {
 
+                temp.setHasArrivalTime(false);
+               // System.out.println("tmp" + temp.hasArrival);
+                pq.insert(temp);
+                //System.out.println("tmp" + temp.id);
+
+               index++;
+               if (!jobs.isEmpty()) {
+                   temp = jobs.delMin();
+                   temp.setHasArrivalTime(false);
+               }
+
+            }
+
+
+                Job job = pq.delMin();
+
+//            System.out.println("pq" + job.id);
+            currentTime = currentTime + job.processingTime;
+            sum += currentTime;
+
+                //System.out.println("curr" + currentTime);
+                System.out.print(job.id + ", ");
+
+
+
+
+
+        }
+        System.out.println("]");
+
+        average = sum / jobSize;
+        System.out.println("Average completion time: " + average);
+
+//
+//
+//        Job[] pq = new Job[jobs.size()];
+//        int index = 0;
+//
+//        while (!jobs.isEmpty()){
+//            Job job = jobs.delMin();
+//            System.out.println(job.id);
+//            pq[index] = job;
+//            index++;
+//        }
+//        int currentTime = pq[0].processingTime;
+//        System.out.print("Execution Order: [" + pq[0].id);
+//
+//        int n = 1;
+//        while (n < pq.length){
+//
+//            int currentMin = n;
+//            int k=currentMin;
+//            for (int i = n; (pq[i].arrivalTime <= currentTime) && (i < pq.length); i++){
+////                System.out.println("length" + pq.length);
+//                if (pq[i].processingTime < pq[currentMin].processingTime) {
+//                    System.out.println("min" + pq[i].id);
+//                    k = currentMin;
+//                    currentMin = i;
+//
+//                }
+//
+//            }
+//            if (currentMin != n){
+//                    Job temp = pq[currentMin];
+////                    for (int j = currentMin-1; j >= n; j--){
+////                        pq[j+1] = pq[j];
+////                    }
+//                pq[currentMin] = pq[k];
+//                    pq[k] = temp;
+//
+//
+//            }
+//            System.out.print(", " + pq[n].id);
+//            currentTime += pq[n].processingTime;
+//
+//
+//            n++;
+//
+//        }
+//        System.out.print("[");
+//        for(Job j : pq){
+//            System.out.print(j.id + ", ");
+//        }
+//
 
 
 

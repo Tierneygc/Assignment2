@@ -1,24 +1,24 @@
 
 
-public class MinPQ<Key extends Comparable<Key>> {
-    private Key[] pq;
+public class MinPQ<Job extends Comparable<Job>> {
+    private Job[] pq;
     private int n;
 
 
     public MinPQ(int capacity)
-    { pq = (Key[]) new Comparable[capacity+1]; }
+    { pq = (Job[]) new Comparable[capacity+1]; }
     public boolean isEmpty()
     { return n == 0; }
-    public void insert(Key x) {
+    public void insert(Job x) {
 
         pq[++n] = x;
 
             swim(n);
 
     }// see previous code
-    public Key delMin(){
+    public Job delMin(){
 
-        Key min = pq[1];
+        Job min = pq[1];
         exch(1, n--);
         sink(1);
         pq[n+1] = null;
@@ -44,18 +44,18 @@ public class MinPQ<Key extends Comparable<Key>> {
     }
 
     private boolean greater(int i, int j) {
-        return ((Comparable<Key>) pq[i]).compareTo(pq[j]) > 0;
+        return ((Comparable<Job>) pq[i]).compareTo(pq[j]) > 0;
     }
 
     private void exch(int i, int j) {
-        Key swap = pq[i];
+        Job swap = pq[i];
         pq[i] = pq[j];
         pq[j] = swap;
     }
     public int size() { return n; }
 
 //    public void sort(){
-//        Key first = (Key) pq[0];
+//        Job first = (Job) pq[0];
 //        int currentTime;
 //        currentTime = pq[0].getProcessingTime();
 //        int n = 1;
@@ -66,9 +66,13 @@ public class MinPQ<Key extends Comparable<Key>> {
 //                n++;
 //        }
 //    }
-    public Key[] getPq(){
+    public Job[] getPq(){
         return pq;
     }
+
+   public Job getIndex(int index) {
+        return pq[index];
+   }
 
 
 }
