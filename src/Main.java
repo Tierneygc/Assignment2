@@ -183,16 +183,22 @@ public class Main{
             }
             if (currentMin != n){
                     Job temp = pq[currentMin];
-                    for ()
-                    pq[n] = pq[currentMin];
-                    pq[currentMin] = temp;
+                    for (int j = currentMin-1; j >= n; j--){
+                        pq[j+1] = pq[j];
+                    }
+                    pq[n] = temp;
+
 
             }
             System.out.print(", " + pq[n].id);
             currentTime += pq[n].processingTime;
 
-            n++;
+            n=++;
 
+        }
+        System.out.print("[");
+        for(Job j : pq){
+            System.out.print(j.id + ", ");
         }
 
 
