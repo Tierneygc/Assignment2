@@ -1,4 +1,5 @@
 
+
 public class MinPQ<Key extends Comparable<Key>> {
     private Key[] pq;
     private int n;
@@ -54,8 +55,9 @@ public class MinPQ<Key extends Comparable<Key>> {
     public int size() { return n; }
 
 //    public void sort(){
-//        Key first = pq[0];
-//        currentTime = first.processingTime;
+//        Key first = (Key) pq[0];
+//        int currentTime;
+//        currentTime = pq[0].getProcessingTime();
 //        int n = 1;
 //        while (n < pq.length){
 //            for (int i = n; pq[i].arrivalTime <= currentTime; i++){

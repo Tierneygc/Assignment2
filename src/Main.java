@@ -47,7 +47,7 @@ public class Main{
         }
 
         public boolean hasArrivalTime() {
-            return this.arrivalTime > 0;
+            return this.arrivalTime >= 0;
         }
         // Sorting jobs by their processing time (min-heap priority)
         @Override
@@ -158,31 +158,46 @@ public class Main{
 //            System.out.print(nextJob.id + ", ");
 //        }
 
-        Job[] pq = (Job[]) jobs.getPq();
+        Job[] pq = new Job[jobs.size()];
+        int index = 0;
+
+        while (!jobs.isEmpty()){
+            Job job = jobs.delMin();
+            System.out.println(job.id);
+            pq[index] = job;
+            index++;
+        }
         int currentTime = pq[0].processingTime;
-        System.out.print("Execution Order: [");
+        System.out.print("Execution Order: [" + pq[0].id);
 
         int n = 1;
         while (n < pq.length){
+
             int currentMin = n;
-            for (int i = n; pq[i].arrivalTime <= currentTime; i++){
-                if (pq[i].processingTime < pq[currentMin].processingTime){
+            for (int i = n; pq[i].arrivalTime <= currentTime && i < pq.length - 1; i++){
+//                System.out.println("length" + pq.length);
+                if (pq[i].processingTime < pq[currentMin].processingTime) {
                     currentMin = i;
+                }
 
             }
             if (currentMin != n){
-                    Job temp = pq[n];
+                    Job temp = pq[currentMin];
+                    for ()
                     pq[n] = pq[currentMin];
                     pq[currentMin] = temp;
 
             }
             System.out.print(", " + pq[n].id);
             currentTime += pq[n].processingTime;
+
             n++;
+
         }
 
 
-        }
+
+
 
 
     }
